@@ -26,12 +26,15 @@ export class ProductComponent implements OnInit, OnDestroy {
     {
       alias: 'Data Modyfikacji',
       name: 'modificationDate',
-      isSortable: false,
+      isSortable: true,
+      displayFunction(item) {
+        return new Date(item).toLocaleDateString('pl-PL');
+      },
     },
     {
       alias: 'Dostępny',
       name: 'isAvailable',
-      isSortable: true,
+      isSortable: false,
     },
   ];
 
@@ -43,6 +46,11 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   getProducts() {
     this.dataService.getProducts().pipe(tap(console.log)).subscribe((data) => this.productsDataSoruce.data = data);
+  }
+
+  changeAvability(element: ProductModel) {
+    element.isAvailable = !element.isAvailable;
+    console.log(element);
   }
 
   ngOnDestroy() {

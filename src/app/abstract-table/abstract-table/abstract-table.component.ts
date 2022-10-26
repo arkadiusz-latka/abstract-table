@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ContentChildren, Input, OnInit, QueryList, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatColumnDef, MatTable, MatTableDataSource } from '@angular/material/table';
 import { ColumnConfig } from '../ColumnConfig';
 
 @Component({
@@ -9,23 +9,23 @@ import { ColumnConfig } from '../ColumnConfig';
   templateUrl: './abstract-table.component.html',
   styleUrls: ['./abstract-table.component.scss']
 })
-export class AbstractTableComponent implements OnInit, AfterViewInit {
+export class AbstractTableComponent implements OnInit, AfterViewInit, AfterContentInit {
   @Input() dataSource!: MatTableDataSource<any>;
   @Input() columnConfigs!: ColumnConfig[];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sortRef = new MatSort();
   displayedColumns: string[] = [];
+
+
+  @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
+  @ContentChildren(MatColumnDef) columnsInjected!: QueryList<MatColumnDef>;
   // @ViewChild('empTbSort') empTbSort = new MatSort();
 
-  constructor() { }
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    console.log(this.columnConfigs);
-
     this.displayedColumns = this.columnConfigs.map(config => config.name);
     this.displayedColumns.unshift('actions');
-    console.log('dupa', this.displayedColumns);
-
   }
 
   ngAfterViewInit() {
@@ -33,5 +33,14 @@ export class AbstractTableComponent implements OnInit, AfterViewInit {
     // this.empTbSort.disableClear = true;
     // this.dataSource.sort = this.empTbSort;
     this.dataSource.sort = this.sortRef;
+  }
+
+  ngAfterContentInit() {
+    this.columnsInjected.forEach(columnDef => {
+      this.table.addColumnDef(columnDef);
+      this.displayedColumns.unshift(columnDef.name);
+      console.log(columnDef.name);
+    });
+    this.cd.detectChanges();
   }
 }
