@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, tap } from 'rxjs';
 import { ColumnConfig } from 'src/app/abstract-table/ColumnConfig';
-import { DataService } from 'src/app/data.service';
+import { DataService } from 'src/app/shared/data.service';
 import { ProductModel } from 'src/app/types/product.model';
 
 @Component({
@@ -10,7 +10,7 @@ import { ProductModel } from 'src/app/types/product.model';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit, OnDestroy {
+export class ProductComponent implements OnInit {
   productsDataSoruce: MatTableDataSource<ProductModel> = new MatTableDataSource();
   columnConfigs: ColumnConfig[] = [
     {
@@ -49,11 +49,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   changeAvability(element: ProductModel) {
+    // Tutaj powinien lecieć request i refresh danych ale działamy na lokalnych danych więc olałem :)
     element.isAvailable = !element.isAvailable;
-    console.log(element);
-  }
-
-  ngOnDestroy() {
-    // this.productsDataSoruce.destory();
   }
 }

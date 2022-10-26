@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
-import { products } from './products-data';
-import { ProductModel } from './types/product.model';
-import { WholesalerModel } from './types/Wholesaler.model';
-import wholesalers from './wholesaler-data';
+import { products } from '../products-data';
+import { ProductModel } from '../types/product.model';
+import { WholesalerModel } from '../types/Wholesaler.model';
+import wholesalers from '../wholesaler-data';
 
 @Injectable({
   providedIn: 'root'

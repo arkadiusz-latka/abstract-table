@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { tap } from 'rxjs';
 import { ColumnConfig } from 'src/app/abstract-table/ColumnConfig';
-import { DataService } from 'src/app/data.service';
+import { DataService } from 'src/app/shared/data.service';
 import { WholesalerModel } from 'src/app/types/Wholesaler.model';
 
 @Component({
